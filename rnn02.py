@@ -537,7 +537,10 @@ def test_binary(multiple_out=False, n_epochs=250):
     seqlist = []
     count = 0
     data = []
-    for l in open("inputdata-b02-300-10.txt"):
+    BASE_DIR = os.path.dirname(__file__)
+    file_path1 = os.paht.join(BASE_DIR,'/traindata/inputdata-b02-300-10.txt')
+    for l in open(file_path1):
+    #for l in open("inputdata-b02-300-10.txt"):
 	    count += 1
 	    row = [int(x) for x in l.split()]
 	    if len(row) > 0:
@@ -557,7 +560,9 @@ def test_binary(multiple_out=False, n_epochs=250):
     seqlistTest = []
     count = 0
     dataTest = []
-    for l in open("inputdata-b02-100-10.txt"):
+    file_path2 = os.path.join(BASE_DIR, '/testdata/inputdata-b02-100-10.txt')
+    for l in open(file_path2):
+    #for l in open("inputdata-b02-100-10.txt"):
 	    count += 1
 	    row = [int(x) for x in l.split()]
 	    if len(row) > 0:
