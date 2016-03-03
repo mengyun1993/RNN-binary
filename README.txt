@@ -1,0 +1,1 @@
+This is the program of RNN training with both right data and fault data. Try to make it more robust with fault data.
