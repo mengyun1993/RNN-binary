@@ -708,12 +708,13 @@ def test_softmax(n_epochs=250):
             print(error[i])
 
 if __name__ == "__main__":
-    logging.basicConfig(
-                 level    = logging.INFO,
-                 format   = 'LINE %(lineno)-4d %(levelname)-8s %(message)s',
-                 datafmt  = '%m-%d %H:%M',
-                 filename = "D:/logresult20160123/one.log",
-                 filemode = 'w')
+    ##logging.basicConfig(
+    ##             level    = logging.INFO,
+    ##             format   = 'LINE %(lineno)-4d %(levelname)-8s %(message)s',
+    ##             datafmt  = '%m-%d %H:%M',
+    ##             filename = "D:/logresult20160123/one.log",
+    ##             filemode = 'w')
+
     t0 = time.time()
     #test_real()
     # problem takes more epochs to solve
