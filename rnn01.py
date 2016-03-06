@@ -723,6 +723,6 @@ if __name__ == "__main__":
     t0 = time.time()
     #test_real()
     # problem takes more epochs to solve
-    test_binary(multiple_out=True, n_epochs=30)
+    test_binary(multiple_out=True, n_epochs=20)
     #test_softmax(n_epochs=250)
     print ("Elapsed time: %f" % (time.time() - t0))
