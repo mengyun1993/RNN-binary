@@ -524,10 +524,10 @@ def test_real():
 
 def test_binary(multiple_out=False, n_epochs=250):
     """ Test RNN with binary outputs. """
-    n_hidden = 10
-    n_in = 1
-    n_out = 4
-    n_steps = 10
+    n_hidden = 30
+    n_in = 9
+    n_out = 21
+    n_steps = 15
     n_seq = 300
 
     np.random.seed(0)
@@ -538,7 +538,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     count = 0
     data = []
     BASE_DIR = os.path.dirname(__file__)
-    file_path1 = os.path.join(BASE_DIR,"traindata\inputdata-b02-300-10.txt")
+    file_path1 = os.path.join(BASE_DIR,"traindata\inputdata-b08-300-15.txt")
     for l in open(file_path1):
     #for l in open("inputdata-b02-300-10.txt"):
 	    count += 1
@@ -560,7 +560,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     seqlistTest = []
     count = 0
     dataTest = []
-    file_path2 = os.path.join(BASE_DIR, 'testdata\inputdata-b02-100-10.txt')
+    file_path2 = os.path.join(BASE_DIR, 'testdata\inputdata-b08-100-15.txt')
     for l in open(file_path2):
     #for l in open("inputdata-b02-100-10.txt"):
 	    count += 1
@@ -586,7 +586,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     #model.fit(seq, targets, validation_frequency=1000)
     model.fit(seq, targets, seqTest, targetsTest, validation_frequency=1000)
 
-    ferror = file('errorRate.txt','a+')
+    ferror = file('errorRate\errorRate-b08-300-100-15.txt','a+')
     [seqNum,lineNum,colNum] = targetsTest.shape
     #print (seqTest.shape)
     seqs = xrange(seqNum)
@@ -723,6 +723,6 @@ if __name__ == "__main__":
     t0 = time.time()
     #test_real()
     # problem takes more epochs to solve
-    test_binary(multiple_out=True, n_epochs=14)
+    test_binary(multiple_out=True, n_epochs=30)
     #test_softmax(n_epochs=250)
     print ("Elapsed time: %f" % (time.time() - t0))

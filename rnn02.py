@@ -586,7 +586,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     #model.fit(seq, targets, validation_frequency=1000)
     model.fit(seq, targets, seqTest, targetsTest, validation_frequency=1000)
 
-    ferror = file('errorRate.txt','a+')
+    ferror = file('errorRate\errorRate.txt-b02-300-100-10','a+')
     [seqNum,lineNum,colNum] = targetsTest.shape
     #print (seqTest.shape)
     seqs = xrange(seqNum)
@@ -723,6 +723,6 @@ if __name__ == "__main__":
     t0 = time.time()
     #test_real()
     # problem takes more epochs to solve
-    test_binary(multiple_out=True, n_epochs=14)
+    test_binary(multiple_out=True, n_epochs=30)
     #test_softmax(n_epochs=250)
     print ("Elapsed time: %f" % (time.time() - t0))
