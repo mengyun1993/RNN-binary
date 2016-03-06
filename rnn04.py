@@ -342,7 +342,7 @@ class MetaRNN(BaseEstimator):
         validation_frequency : int
             in terms of number of sequences (or number of weight updates)
         """
-        f = file('trainOutput.txt','a+')
+        f = file('trainProcess/trainOutput-b04-500-200-20.txt','a+')
         if X_test is not None:
             assert(Y_test is not None)
             self.interactive = True
