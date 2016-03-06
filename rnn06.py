@@ -538,7 +538,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     count = 0
     data = []
     BASE_DIR = os.path.dirname(__file__)
-    file_path1 = os.path.join(BASE_DIR,"traindata\inputdata-b06-300-10.txt")
+    file_path1 = os.path.join(BASE_DIR,"traindata/inputdata-b06-300-10.txt")
     for l in open(file_path1):
     #for l in open("inputdata-b02-300-10.txt"):
 	    count += 1
@@ -560,7 +560,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     seqlistTest = []
     count = 0
     dataTest = []
-    file_path2 = os.path.join(BASE_DIR, 'testdata\inputdata-b06-100-10.txt')
+    file_path2 = os.path.join(BASE_DIR, 'testdata/inputdata-b06-100-10.txt')
     for l in open(file_path2):
     #for l in open("inputdata-b02-100-10.txt"):
 	    count += 1
@@ -586,7 +586,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     #model.fit(seq, targets, validation_frequency=1000)
     model.fit(seq, targets, seqTest, targetsTest, validation_frequency=1000)
 
-    ferror = file('errorRate\errorRate-b06-300-100-10.txt','a+')
+    ferror = file('errorRate/errorRate-b06-300-100-10.txt','a+')
     [seqNum,lineNum,colNum] = targetsTest.shape
     #print (seqTest.shape)
     seqs = xrange(seqNum)
