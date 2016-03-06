@@ -524,11 +524,11 @@ def test_real():
 
 def test_binary(multiple_out=False, n_epochs=250):
     """ Test RNN with binary outputs. """
-    n_hidden = 10
-    n_in = 1
-    n_out = 4
+    n_hidden = 40
+    n_in = 11
+    n_out = 17
     n_steps = 10
-    n_seq = 300
+    n_seq = 500
 
     np.random.seed(0)
     # simple lag test
@@ -537,10 +537,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     seqlist = []
     count = 0
     data = []
-    BASE_DIR = os.path.dirname(__file__)
-    file_path1 = os.path.join(BASE_DIR,"traindata\inputdata-b02-300-10.txt")
-    for l in open(file_path1):
-    #for l in open("inputdata-b02-300-10.txt"):
+    for l in open("inputdata-b10-500-10.txt"):
 	    count += 1
 	    row = [int(x) for x in l.split()]
 	    if len(row) > 0:
@@ -560,9 +557,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     seqlistTest = []
     count = 0
     dataTest = []
-    file_path2 = os.path.join(BASE_DIR, 'testdata\inputdata-b02-100-10.txt')
-    for l in open(file_path2):
-    #for l in open("inputdata-b02-100-10.txt"):
+    for l in open("inputdata-b10-200-10.txt"):
 	    count += 1
 	    row = [int(x) for x in l.split()]
 	    if len(row) > 0:
@@ -580,7 +575,7 @@ def test_binary(multiple_out=False, n_epochs=250):
 	
     
     model = MetaRNN(n_in=n_in, n_hidden=n_hidden, n_out=n_out,
-                    learning_rate=0.06, learning_rate_decay=1,
+                    learning_rate=0.03, learning_rate_decay=0.999,
                     n_epochs=n_epochs, activation='tanh', output_type='binary')
 
     #model.fit(seq, targets, validation_frequency=1000)
@@ -713,16 +708,15 @@ def test_softmax(n_epochs=250):
             print(error[i])
 
 if __name__ == "__main__":
-    ##logging.basicConfig(
-    ##             level    = logging.INFO,
-    ##             format   = 'LINE %(lineno)-4d %(levelname)-8s %(message)s',
-    ##             datafmt  = '%m-%d %H:%M',
-    ##             filename = "D:/logresult20160123/one.log",
-    ##             filemode = 'w')
-
+    logging.basicConfig(
+                 level    = logging.INFO,
+                 format   = 'LINE %(lineno)-4d %(levelname)-8s %(message)s',
+                 datafmt  = '%m-%d %H:%M',
+                 filename = "D:/logresult20160123/one.log",
+                 filemode = 'w')
     t0 = time.time()
     #test_real()
     # problem takes more epochs to solve
-    test_binary(multiple_out=True, n_epochs=14)
+    test_binary(multiple_out=True, n_epochs=28)
     #test_softmax(n_epochs=250)
     print ("Elapsed time: %f" % (time.time() - t0))
