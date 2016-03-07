@@ -524,7 +524,7 @@ def test_real():
 
 def test_binary(multiple_out=False, n_epochs=250):
     """ Test RNN with binary outputs. """
-    n_hidden = 30
+    n_hidden = 35
     n_in = 9
     n_out = 21
     n_steps = 15
@@ -580,7 +580,7 @@ def test_binary(multiple_out=False, n_epochs=250):
 	
     
     model = MetaRNN(n_in=n_in, n_hidden=n_hidden, n_out=n_out,
-                    learning_rate=0.06, learning_rate_decay=1,
+                    learning_rate=0.02, learning_rate_decay=0.9999,
                     n_epochs=n_epochs, activation='tanh', output_type='binary')
 
     #model.fit(seq, targets, validation_frequency=1000)
@@ -723,6 +723,6 @@ if __name__ == "__main__":
     t0 = time.time()
     #test_real()
     # problem takes more epochs to solve
-    test_binary(multiple_out=True, n_epochs=30)
+    test_binary(multiple_out=True, n_epochs=67)
     #test_softmax(n_epochs=250)
     print ("Elapsed time: %f" % (time.time() - t0))

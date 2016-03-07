@@ -524,7 +524,7 @@ def test_real():
 
 def test_binary(multiple_out=False, n_epochs=250):
     """ Test RNN with binary outputs. """
-    n_hidden = 80
+    n_hidden = 60
     n_in = 1
     n_out = 60
     n_steps = 40
@@ -580,7 +580,7 @@ def test_binary(multiple_out=False, n_epochs=250):
 	
     
     model = MetaRNN(n_in=n_in, n_hidden=n_hidden, n_out=n_out,
-                    learning_rate=0.06, learning_rate_decay=1,
+                    learning_rate=0.1, learning_rate_decay=0.9999,
                     n_epochs=n_epochs, activation='tanh', output_type='binary')
 
     #model.fit(seq, targets, validation_frequency=1000)
