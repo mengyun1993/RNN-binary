@@ -561,7 +561,8 @@ def test_binary(multiple_out=False, n_epochs=250):
     count = 0
     dataTest = []
     #file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputdata-b12-20-40-25.txt')
-    file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputerror-b12-20-40-25.txt')
+    #file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputerror-b12-20-40-25.txt')
+    file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputerror-b12-20-40-25-y.txt')
     for l in open(file_path2):
     #for l in open("inputdata-b02-100-10.txt"):
 	    count += 1
@@ -599,12 +600,12 @@ def test_binary(multiple_out=False, n_epochs=250):
         guess = model.predict_proba(seqTest[k])
         dif = abs(guess - targetsTest[k])
         [lineDif,colDif] = dif.shape
-        for i in range (lineDif):
+        for i in range (1,lineDif):
             for j in range (colDif):
                 if (dif[i][j] > 0.5):
                     error[k] += 1
         ferror.write('error %d = %d \n' % (k,error[k]))
-        if (error[k]>(10*lineNum)):
+        if (error[k]>(4*(lineDif-1))):
             errorsum += 1
     print (errorsum)
     errorRate = errorsum/1.0/seqNum
