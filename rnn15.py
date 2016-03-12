@@ -342,7 +342,7 @@ class MetaRNN(BaseEstimator):
         validation_frequency : int
             in terms of number of sequences (or number of weight updates)
         """
-        f = file('../RNN-data/trainProcess/trainOutput-b14-2700-900-50.txt','a+')
+        f = file('../RNN-data/trainProcess/trainOutput-b15-2220-720-60.txt','a+')
         if X_test is not None:
             assert(Y_test is not None)
             self.interactive = True
@@ -524,11 +524,11 @@ def test_real():
 
 def test_binary(multiple_out=False, n_epochs=250):
     """ Test RNN with binary outputs. """
-    n_hidden = 240
-    n_in = 32
-    n_out = 245
-    n_steps = 50
-    n_seq = 2700
+    n_hidden = 300
+    n_in = 36
+    n_out = 449
+    n_steps = 60
+    n_seq = 2220
 
     np.random.seed(0)
     # simple lag test
@@ -538,7 +538,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     count = 0
     data = []
     BASE_DIR = os.path.dirname(__file__)
-    file_path1 = os.path.join(BASE_DIR,"../RNN-data/traindata/inputdata-b14-60-50-45.txt")
+    file_path1 = os.path.join(BASE_DIR,"../RNN-data/traindata/inputdata-b15-60-60-37.txt")
     for l in open(file_path1):
     #for l in open("inputdata-b02-300-10.txt"):
 	    count += 1
@@ -560,7 +560,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     seqlistTest = []
     count = 0
     dataTest = []
-    file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputdata-b14-60-50-15.txt')
+    file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputdata-b15-60-60-12.txt')
     for l in open(file_path2):
     #for l in open("inputdata-b02-100-10.txt"):
 	    count += 1
@@ -586,7 +586,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     #model.fit(seq, targets, validation_frequency=1000)
     model.fit(seq, targets, seqTest, targetsTest, validation_frequency=1000)
 
-    ferror = file('errorRate/errorRate-b14-2700-900-50.txt','a+')
+    ferror = file('errorRate/errorRate-b15-2220-720-60.txt','a+')
     [seqNum,lineNum,colNum] = targetsTest.shape
     #print (seqTest.shape)
     seqs = xrange(seqNum)
@@ -630,7 +630,7 @@ def test_binary(multiple_out=False, n_epochs=250):
 ##        for i, x in enumerate(guessed_targets):
 ##            x.set_color(true_targets[i].get_color())
 ##        ax2.set_ylim((-0.1, 1.1))
-##        ax2.set_title('solid: true output, dashed: model output (prob)')
+##        ax2.set_title('solid: true output, dashed6 model output (prob)')
 ##        
 ##        
 ##        dif = abs(guess - targets[seq_num])
@@ -723,6 +723,6 @@ if __name__ == "__main__":
     t0 = time.time()
     #test_real()
     # problem takes more epochs to solve
-    test_binary(multiple_out=True, n_epochs=15)
+    test_binary(multiple_out=True, n_epochs=20)
     #test_softmax(n_epochs=250)
     print ("Elapsed time: %f" % (time.time() - t0))
