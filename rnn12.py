@@ -580,16 +580,17 @@ def test_binary(multiple_out=False, n_epochs=250):
     targetsTest = seqarrayTest[:,:,n_in:]
 	
     
+    #print (seqTest.shape)
     model = MetaRNN(n_in=n_in, n_hidden=n_hidden, n_out=n_out,
                     learning_rate=0.06, learning_rate_decay=1,
                     n_epochs=n_epochs, activation='tanh', output_type='binary')
 
     #model.fit(seq, targets, validation_frequency=1000)
     model.fit(seq, targets, seqTest, targetsTest, validation_frequency=1000)
-
+    
+    
     ferror = file('errorRate/errorRate-b12-1500-500-40.txt','a+')
     [seqNum,lineNum,colNum] = targetsTest.shape
-    #print (seqTest.shape)
     seqs = xrange(seqNum)
     error = [0 for i in range(lineNum*seqNum)]
     errorsum = 0
