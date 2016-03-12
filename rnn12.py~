@@ -524,7 +524,7 @@ def test_real():
 
 def test_binary(multiple_out=False, n_epochs=250):
     """ Test RNN with binary outputs. """
-    n_hidden = 120
+    n_hidden = 100
     n_in = 5
     n_out = 121
     n_steps = 40
@@ -560,7 +560,8 @@ def test_binary(multiple_out=False, n_epochs=250):
     seqlistTest = []
     count = 0
     dataTest = []
-    file_path2 = os.path.join(BASE_DIR, 'testdata/inputdata-b12-20-40-25.txt')
+    #file_path2 = os.path.join(BASE_DIR, 'testdata/inputdata-b12-20-40-25.txt')
+    file_path2 = os.path.join(BASE_DIR, 'testdata/inputerror-b12-20-40-25.txt')
     for l in open(file_path2):
     #for l in open("inputdata-b02-100-10.txt"):
 	    count += 1
@@ -580,7 +581,7 @@ def test_binary(multiple_out=False, n_epochs=250):
 	
     
     model = MetaRNN(n_in=n_in, n_hidden=n_hidden, n_out=n_out,
-                    learning_rate=0.13, learning_rate_decay=1,
+                    learning_rate=0.06, learning_rate_decay=1,
                     n_epochs=n_epochs, activation='tanh', output_type='binary')
 
     #model.fit(seq, targets, validation_frequency=1000)
@@ -723,6 +724,6 @@ if __name__ == "__main__":
     t0 = time.time()
     #test_real()
     # problem takes more epochs to solve
-    test_binary(multiple_out=True, n_epochs=80)
+    test_binary(multiple_out=True, n_epochs=40)
     #test_softmax(n_epochs=250)
     print ("Elapsed time: %f" % (time.time() - t0))

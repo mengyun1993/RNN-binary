@@ -342,7 +342,7 @@ class MetaRNN(BaseEstimator):
         validation_frequency : int
             in terms of number of sequences (or number of weight updates)
         """
-        f = file('trainOutput.txt','a+')
+        f = file('../RNN-data/trainProcess/trainOutput-b12-1500-500-40.txt','a+')
         if X_test is not None:
             assert(Y_test is not None)
             self.interactive = True
@@ -538,7 +538,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     count = 0
     data = []
     BASE_DIR = os.path.dirname(__file__)
-    file_path1 = os.path.join(BASE_DIR,"traindata/inputdata-b12-50-40-30.txt")
+    file_path1 = os.path.join(BASE_DIR,"../RNN-data/traindata/inputdata-b12-50-40-30.txt")
     for l in open(file_path1):
     #for l in open("inputdata-b02-300-10.txt"):
 	    count += 1
@@ -560,7 +560,8 @@ def test_binary(multiple_out=False, n_epochs=250):
     seqlistTest = []
     count = 0
     dataTest = []
-    file_path2 = os.path.join(BASE_DIR, 'testdata/inputdata-b12-20-40-25.txt')
+    #file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputdata-b12-20-40-25.txt')
+    file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputerror-b12-20-40-25.txt')
     for l in open(file_path2):
     #for l in open("inputdata-b02-100-10.txt"):
 	    count += 1
@@ -723,6 +724,6 @@ if __name__ == "__main__":
     t0 = time.time()
     #test_real()
     # problem takes more epochs to solve
-    test_binary(multiple_out=True, n_epochs=80)
+    test_binary(multiple_out=True, n_epochs=40)
     #test_softmax(n_epochs=250)
     print ("Elapsed time: %f" % (time.time() - t0))
