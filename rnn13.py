@@ -342,7 +342,7 @@ class MetaRNN(BaseEstimator):
         validation_frequency : int
             in terms of number of sequences (or number of weight updates)
         """
-        f = file('trainOutput.txt','a+')
+        f = file('../RNN-data/trainProcess/trainOutput-b13-2000-600-30.txt','a+')
         if X_test is not None:
             assert(Y_test is not None)
             self.interactive = True
@@ -538,7 +538,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     count = 0
     data = []
     BASE_DIR = os.path.dirname(__file__)
-    file_path1 = os.path.join(BASE_DIR,"traindata/inputdata-b13-50-30-40.txt")
+    file_path1 = os.path.join(BASE_DIR,"../RNN-data/traindata/inputdata-b13-50-30-40.txt")
     for l in open(file_path1):
     #for l in open("inputdata-b02-300-10.txt"):
 	    count += 1
@@ -560,7 +560,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     seqlistTest = []
     count = 0
     dataTest = []
-    file_path2 = os.path.join(BASE_DIR, 'testdata/inputdata-b13-30-30-20.txt')
+    file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputerror-b13-30-30-20.txt')
     for l in open(file_path2):
     #for l in open("inputdata-b02-100-10.txt"):
 	    count += 1
@@ -580,13 +580,13 @@ def test_binary(multiple_out=False, n_epochs=250):
 	
     
     model = MetaRNN(n_in=n_in, n_hidden=n_hidden, n_out=n_out,
-                    learning_rate=0.06, learning_rate_decay=1,
+                    learning_rate=0.09, learning_rate_decay=1,
                     n_epochs=n_epochs, activation='tanh', output_type='binary')
 
     #model.fit(seq, targets, validation_frequency=1000)
     model.fit(seq, targets, seqTest, targetsTest, validation_frequency=1000)
 
-    ferror = file('errorRata/errorRate-b13-2000-600-30.txt','a+')
+    ferror = file('errorRate/errorRate-b13-2000-600-30.txt','a+')
     [seqNum,lineNum,colNum] = targetsTest.shape
     #print (seqTest.shape)
     seqs = xrange(seqNum)
@@ -723,6 +723,6 @@ if __name__ == "__main__":
     t0 = time.time()
     #test_real()
     # problem takes more epochs to solve
-    test_binary(multiple_out=True, n_epochs=50)
+    test_binary(multiple_out=True, n_epochs=28)
     #test_softmax(n_epochs=250)
     print ("Elapsed time: %f" % (time.time() - t0))
