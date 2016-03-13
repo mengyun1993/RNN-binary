@@ -588,26 +588,46 @@ def test_binary(multiple_out=False, n_epochs=250):
 
     ferror = file('errorRate/errorRate-b14-2700-900-50.txt','a+')
     [seqNum,lineNum,colNum] = targetsTest.shape
-    #print (seqTest.shape)
+
     seqs = xrange(seqNum)
-    error = [0 for i in range(lineNum*seqNum)]
+    error = [0 for i in range(seqNum)]
     errorsum = 0
     for k in seqs:
         guess = model.predict_proba(seqTest[k])
         dif = abs(guess - targetsTest[k])
         [lineDif,colDif] = dif.shape
-        #print(lineDif,colDif)
-        for i in range (lineDif):
-            ki = k*lineDif+i
+        for i in range (1,lineDif):
             for j in range (colDif):
                 if (dif[i][j] > 0.5):
-                    error[ki] += 1
-            ferror.write('error %d = %d \n' % (ki,error[ki]))
-            if (error[ki]>0):
-                errorsum += 1
-    print(errorsum)
-    errorRate = errorsum/1.0/seqNum/lineNum
+                    error[k] += 1
+        ferror.write('error %d = %d \n' % (k,error[k]))
+        if (error[k]>(4*(lineDif-1))):
+            errorsum += 1
+    print (errorsum)
+    errorRate = errorsum/1.0/seqNum
     ferror.write("average error = %f \n" % (errorRate))
+
+    
+##    #print (seqTest.shape)
+##    seqs = xrange(seqNum)
+##    error = [0 for i in range(lineNum*seqNum)]
+##    errorsum = 0
+##    for k in seqs:
+##        guess = model.predict_proba(seqTest[k])
+##        dif = abs(guess - targetsTest[k])
+##        [lineDif,colDif] = dif.shape
+##        #print(lineDif,colDif)
+##        for i in range (lineDif):
+##            ki = k*lineDif+i
+##            for j in range (colDif):
+##                if (dif[i][j] > 0.5):
+##                    error[ki] += 1
+##            ferror.write('error %d = %d \n' % (ki,error[ki]))
+##            if (error[ki]>0):
+##                errorsum += 1
+##    print(errorsum)
+##    errorRate = errorsum/1.0/seqNum/lineNum
+##    ferror.write("average error = %f \n" % (errorRate))
         
 ##    seqs = xrange(1)
 ##    
