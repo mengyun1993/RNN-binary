@@ -182,7 +182,7 @@ class RNN(object):
 
 class MetaRNN(BaseEstimator):
     def __init__(self, n_in=5, n_hidden=50, n_out=5, learning_rate=0.01,
-                 n_epochs=100, L1_reg=0.00, L2_reg=0.00, learning_rate_decay=1,
+                 n_epochs=100, L1_reg=0.00, L2_reg=0.00005, learning_rate_decay=1,
                  activation='tanh', output_type='real',
                  final_momentum=0.9, initial_momentum=0.5,
                  momentum_switchover=5,
@@ -560,7 +560,8 @@ def test_binary(multiple_out=False, n_epochs=250):
     seqlistTest = []
     count = 0
     dataTest = []
-    file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputdata-b15-60-60-12.txt')
+#    file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputdata-b15-60-60-12.txt')
+    file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputerror-b15-60-60-12-y.txt')
     for l in open(file_path2):
     #for l in open("inputdata-b02-100-10.txt"):
 	    count += 1
@@ -580,7 +581,7 @@ def test_binary(multiple_out=False, n_epochs=250):
 	
     
     model = MetaRNN(n_in=n_in, n_hidden=n_hidden, n_out=n_out,
-                    learning_rate=0.1, learning_rate_decay=0.99,
+                    learning_rate=0.11, learning_rate_decay=1.005,
                     n_epochs=n_epochs, activation='tanh', output_type='binary')
 
     #model.fit(seq, targets, validation_frequency=1000)

@@ -182,7 +182,7 @@ class RNN(object):
 
 class MetaRNN(BaseEstimator):
     def __init__(self, n_in=5, n_hidden=50, n_out=5, learning_rate=0.01,
-                 n_epochs=100, L1_reg=0.00, L2_reg=0.00, learning_rate_decay=1,
+                 n_epochs=100, L1_reg=0.00, L2_reg=0.00005, learning_rate_decay=1,
                  activation='tanh', output_type='real',
                  final_momentum=0.9, initial_momentum=0.5,
                  momentum_switchover=5,
@@ -560,9 +560,9 @@ def test_binary(multiple_out=False, n_epochs=250):
     seqlistTest = []
     count = 0
     dataTest = []
-    #file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputdata-b12-20-40-25.txt')
+    file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputdata-b12-20-40-25.txt')
     #file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputerror-b12-20-40-25.txt')
-    file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputerror-b12-20-40-25-y.txt')
+    #file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputerror-b12-20-40-25-y.txt')
     for l in open(file_path2):
     #for l in open("inputdata-b02-100-10.txt"):
 	    count += 1
@@ -583,7 +583,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     
     #print (seqTest.shape)
     model = MetaRNN(n_in=n_in, n_hidden=n_hidden, n_out=n_out,
-                    learning_rate=0.06, learning_rate_decay=1,
+                    learning_rate=0.085, learning_rate_decay=1.005,
                     n_epochs=n_epochs, activation='tanh', output_type='binary')
 
     #model.fit(seq, targets, validation_frequency=1000)
@@ -603,9 +603,9 @@ def test_binary(multiple_out=False, n_epochs=250):
         for i in range (1,lineDif):
             for j in range (colDif):
                 if (dif[i][j] > 0.5):
-                    error[k] += 1
+                    error[k] += 1*i
         ferror.write('error %d = %d \n' % (k,error[k]))
-        if (error[k]>(4*(lineDif-1))):
+        if (error[k]>(4.2/2*lineDif*(lineDif-1))):
             errorsum += 1
     print (errorsum)
     errorRate = errorsum/1.0/seqNum

@@ -182,7 +182,7 @@ class RNN(object):
 
 class MetaRNN(BaseEstimator):
     def __init__(self, n_in=5, n_hidden=50, n_out=5, learning_rate=0.01,
-                 n_epochs=100, L1_reg=0.00, L2_reg=0.00, learning_rate_decay=1,
+                 n_epochs=100, L1_reg=0.00, L2_reg=0.00005, learning_rate_decay=1,
                  activation='tanh', output_type='real',
                  final_momentum=0.9, initial_momentum=0.5,
                  momentum_switchover=5,
@@ -588,26 +588,46 @@ def test_binary(multiple_out=False, n_epochs=250):
 
     ferror = file('errorRate/errorRate-b14-2700-900-50.txt','a+')
     [seqNum,lineNum,colNum] = targetsTest.shape
-    #print (seqTest.shape)
+
     seqs = xrange(seqNum)
-    error = [0 for i in range(lineNum*seqNum)]
+    error = [0 for i in range(seqNum)]
     errorsum = 0
     for k in seqs:
         guess = model.predict_proba(seqTest[k])
         dif = abs(guess - targetsTest[k])
         [lineDif,colDif] = dif.shape
-        #print(lineDif,colDif)
-        for i in range (lineDif):
-            ki = k*lineDif+i
+        for i in range (1,lineDif):
             for j in range (colDif):
                 if (dif[i][j] > 0.5):
-                    error[ki] += 1
-            ferror.write('error %d = %d \n' % (ki,error[ki]))
-            if (error[ki]>0):
-                errorsum += 1
-    print(errorsum)
-    errorRate = errorsum/1.0/seqNum/lineNum
+                    error[k] += 1
+        ferror.write('error %d = %d \n' % (k,error[k]))
+        if (error[k]>(4*(lineDif-1))):
+            errorsum += 1
+    print (errorsum)
+    errorRate = errorsum/1.0/seqNum
     ferror.write("average error = %f \n" % (errorRate))
+
+    
+##    #print (seqTest.shape)
+##    seqs = xrange(seqNum)
+##    error = [0 for i in range(lineNum*seqNum)]
+##    errorsum = 0
+##    for k in seqs:
+##        guess = model.predict_proba(seqTest[k])
+##        dif = abs(guess - targetsTest[k])
+##        [lineDif,colDif] = dif.shape
+##        #print(lineDif,colDif)
+##        for i in range (lineDif):
+##            ki = k*lineDif+i
+##            for j in range (colDif):
+##                if (dif[i][j] > 0.5):
+##                    error[ki] += 1
+##            ferror.write('error %d = %d \n' % (ki,error[ki]))
+##            if (error[ki]>0):
+##                errorsum += 1
+##    print(errorsum)
+##    errorRate = errorsum/1.0/seqNum/lineNum
+##    ferror.write("average error = %f \n" % (errorRate))
         
 ##    seqs = xrange(1)
 ##    
@@ -723,6 +743,6 @@ if __name__ == "__main__":
     t0 = time.time()
     #test_real()
     # problem takes more epochs to solve
-    test_binary(multiple_out=True, n_epochs=15)
+    test_binary(multiple_out=True, n_epochs=30)
     #test_softmax(n_epochs=250)
     print ("Elapsed time: %f" % (time.time() - t0))

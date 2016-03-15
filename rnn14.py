@@ -182,7 +182,7 @@ class RNN(object):
 
 class MetaRNN(BaseEstimator):
     def __init__(self, n_in=5, n_hidden=50, n_out=5, learning_rate=0.01,
-                 n_epochs=100, L1_reg=0.00, L2_reg=0.00, learning_rate_decay=1,
+                 n_epochs=100, L1_reg=0.00, L2_reg=0.00005, learning_rate_decay=1,
                  activation='tanh', output_type='real',
                  final_momentum=0.9, initial_momentum=0.5,
                  momentum_switchover=5,
@@ -524,7 +524,7 @@ def test_real():
 
 def test_binary(multiple_out=False, n_epochs=250):
     """ Test RNN with binary outputs. """
-    n_hidden = 240
+    n_hidden = 250
     n_in = 32
     n_out = 245
     n_steps = 50
@@ -580,7 +580,7 @@ def test_binary(multiple_out=False, n_epochs=250):
 	
     
     model = MetaRNN(n_in=n_in, n_hidden=n_hidden, n_out=n_out,
-                    learning_rate=0.1, learning_rate_decay=0.99,
+                    learning_rate=0.1, learning_rate_decay=1,
                     n_epochs=n_epochs, activation='tanh', output_type='binary')
 
     #model.fit(seq, targets, validation_frequency=1000)
@@ -601,7 +601,7 @@ def test_binary(multiple_out=False, n_epochs=250):
                 if (dif[i][j] > 0.5):
                     error[k] += 1
         ferror.write('error %d = %d \n' % (k,error[k]))
-        if (error[k]>(4*(lineDif-1))):
+        if (error[k]>(8*(lineDif-1))):
             errorsum += 1
     print (errorsum)
     errorRate = errorsum/1.0/seqNum
@@ -743,6 +743,6 @@ if __name__ == "__main__":
     t0 = time.time()
     #test_real()
     # problem takes more epochs to solve
-    test_binary(multiple_out=True, n_epochs=15)
+    test_binary(multiple_out=True, n_epochs=30)
     #test_softmax(n_epochs=250)
     print ("Elapsed time: %f" % (time.time() - t0))
