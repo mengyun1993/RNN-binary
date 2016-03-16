@@ -538,7 +538,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     count = 0
     data = []
     BASE_DIR = os.path.dirname(__file__)
-    file_path1 = os.path.join(BASE_DIR,"../RNN-data/traindata/inputdata-b14-60-50-45.txt")
+    file_path1 = os.path.join(BASE_DIR,"../RNN-data/traindata/inputdata-b14-60-50-45-y.txt")
     for l in open(file_path1):
     #for l in open("inputdata-b02-300-10.txt"):
 	    count += 1
@@ -560,8 +560,8 @@ def test_binary(multiple_out=False, n_epochs=250):
     seqlistTest = []
     count = 0
     dataTest = []
-    #file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputdata-b14-60-50-15.txt')
-    file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputerror-b14-60-50-15-y.txt')
+    file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputdata-b14-60-50-15.txt')
+    #file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputerror-b14-60-50-15-y.txt')
     for l in open(file_path2):
     #for l in open("inputdata-b02-100-10.txt"):
 	    count += 1

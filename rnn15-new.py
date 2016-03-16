@@ -556,10 +556,12 @@ def test_binary(multiple_out=False, n_epochs=250):
     seq = seqarray[:,:,:n_in]
     targets = seqarray[:,:,n_in:]
 
+
+
 	
-    seqlistTest = []
+    seqlistTest1 = []
     count = 0
-    dataTest = []
+    dataTest1 = []
     file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputdata-b15-60-60-12.txt')
     #file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputerror-b15-60-60-12-y.txt')
     for l in open(file_path2):
@@ -567,19 +569,43 @@ def test_binary(multiple_out=False, n_epochs=250):
 	    count += 1
 	    row = [int(x) for x in l.split()]
 	    if len(row) > 0:
-		    dataTest.append(row)
+		    dataTest1.append(row)
         
 	    if (count == n_steps):
 		    count = 0
-		    if len(dataTest) >0:
-			    seqlistTest.append(dataTest)
-		    dataTest = []
+		    if len(dataTest1) >0:
+			    seqlistTest1.append(dataTest1)
+		    dataTest1 = []
 
-    seqarrayTest = np.asarray(seqlistTest)
-    seqTest = seqarrayTest[:,:,:n_in]
-    targetsTest = seqarrayTest[:,:,n_in:]
+    seqarrayTest1 = np.asarray(seqlistTest1)
+    seqTest1 = seqarrayTest1[:,:,:n_in]
+    targetsTest1 = seqarrayTest1[:,:,n_in:]
 	
 
+
+##############  Add another Test  ####################
+    seqlistTest2 = []
+    count = 0
+    dataTest2 = []
+    #file_path2 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputdata-b15-60-60-12.txt')
+    file_path4 = os.path.join(BASE_DIR, '../RNN-data/testdata/inputerror-b15-60-60-12-y.txt')
+    for l in open(file_path4):
+    #for l in open("inputdata-b02-100-10.txt"):
+	    count += 1
+	    row = [int(x) for x in l.split()]
+	    if len(row) > 0:
+		    dataTest2.append(row)
+        
+	    if (count == n_steps):
+		    count = 0
+		    if len(dataTest2) >0:
+			    seqlistTest2.append(dataTest2)
+		    dataTest2 = []
+
+    seqarrayTest2 = np.asarray(seqlistTest2)
+    seqTest2 = seqarrayTest2[:,:,:n_in]
+    targetsTest2 = seqarrayTest2[:,:,n_in:]
+###########  End add another Test  ##############
 
     
     ########  Calculate change Frequency for each FF ##############
@@ -612,13 +638,13 @@ def test_binary(multiple_out=False, n_epochs=250):
 
     for i in range(seqNum):
         freqArrayNP = freqArrayNP +abs(targets[i] - targetsError[i])
-    print(freqArrayNP.shape)
-    print("Frequency Matrix:\n")
+    fmatrix = file('../RNN-data/matrix/freqMatrix-b15.txt','a+')
     for i in range (lineNum):
         for j in range(colNum):
-            print (freqArrayNP[i,j])
-        print ("\n")
+            fmatrix.write(freqArrayNP[i,j])
+        fmatrix.write("\n")
 
+    fmatrix.close()
     ######### End Frequency Calculation    #########################
 
 
@@ -630,26 +656,42 @@ def test_binary(multiple_out=False, n_epochs=250):
     #model.fit(seq, targets, validation_frequency=1000)
     model.fit(seq, targets, seqTest, targetsTest, validation_frequency=1000)
 
-    ferror = file('errorRate/errorRate-b15-1500-500-40.txt','a+')
+    ferror1 = file('errorRate/errorRate-b15-no.txt','a+')
+    ferror2 = file('errorRate/errorRate-b15-single.txt','a+')
     [seqNum,lineNum,colNum] = targetsTest.shape
 
     seqs = xrange(seqNum)
     error = [0 for i in range(seqNum)]
     errorsum = 0
+
     for k in seqs:
-        guess = model.predict_proba(seqTest[k])
-        dif = abs(guess - targetsTest[k])
-        [lineDif,colDif] = dif.shape
+        guess1 = model.predict_proba(seqTest1[k])
+        dif1 = abs(guess1 - targetsTest1[k])
+        [lineDif,colDif] = dif1.shape
         for i in range (1,lineDif):
             for j in range (colDif):
-                if (dif[i][j] > 0.5):
-                    error[k] += (freqArrayNP[i][j]+1)
-        ferror.write('error %d = %d \n' % (k,error[k]))
-        if (error[k]>(4.2/2*lineDif*(lineDif-1))):
-            errorsum += 1
-    print (errorsum)
-    errorRate = errorsum/1.0/seqNum
-    ferror.write("average error = %f \n" % (errorRate))
+                if (dif1[i][j] > 0.5):
+                    ferror1.write("1 ")
+                else:
+                    ferror1.write("0 ")
+            ferror1.write("\n")
+    ferror1.close()
+
+    for k in seqs:
+        guess2 = model.predict_proba(seqTest2[k])
+        dif2 = abs(guess2 - targetsTest2[k])
+        [lineDif,colDif] = dif2.shape
+        for i in range (1,lineDif):
+            for j in range (colDif):
+                if (dif2[i][j] > 0.5):
+                    ferror2.write("1 ")
+                else:
+                    ferror2.write("0 ")
+            ferror2.write("\n")
+    ferror2.close()
+
+
+
 
     
 ##    #print (seqTest.shape)
