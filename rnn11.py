@@ -538,7 +538,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     count = 0
     data = []
     BASE_DIR = os.path.dirname(__file__)
-    file_path1 = os.path.join(BASE_DIR,"traindata/inputdata-b11-500-20.txt")
+    file_path1 = os.path.join(BASE_DIR,"traindata/inputdata-b11-50-20-30-n.txt")
     for l in open(file_path1):
     #for l in open("inputdata-b02-300-10.txt"):
 	    count += 1
@@ -561,6 +561,8 @@ def test_binary(multiple_out=False, n_epochs=250):
     count = 0
     dataTest = []
     file_path2 = os.path.join(BASE_DIR, 'testdata/inputdata-b11-200-20.txt')
+    #file_path2 = os.path.join(BASE_DIR, 'testdata/inputdata-b11-20-20-25-n.txt')
+    #file_path2 = os.path.join(BASE_DIR, 'testdata/inputerror-b11-20-20-25-y.txt')
     for l in open(file_path2):
     #for l in open("inputdata-b02-100-10.txt"):
 	    count += 1
@@ -577,6 +579,46 @@ def test_binary(multiple_out=False, n_epochs=250):
     seqarrayTest = np.asarray(seqlistTest)
     seqTest = seqarrayTest[:,:,:n_in]
     targetsTest = seqarrayTest[:,:,n_in:]
+
+    ########  Calculate change Frequency for each FF ##############
+    seqlistError = []
+    count = 0
+    dataError = []
+    file_path3 = os.path.join(BASE_DIR, '../RNN-data/traindata/inputerror-b11-50-20-30-n.txt')
+    for l in open(file_path3):
+	    count += 1
+	    row = [int(x) for x in l.split()]
+	    if len(row) > 0:
+		    dataError.append(row)
+        
+	    if (count == n_steps):
+		    count = 0
+		    if len(dataError) >0:
+			    seqlistError.append(dataError)
+		    dataError = []
+
+    seqarrayError = np.asarray(seqlistError)
+    targetsError = seqarrayError[:,:,n_in:]
+
+
+    [seqNum, lineNum, colNum] = targetsTest.shape
+    freqArray = [None] * lineNum
+    for i in range (lineNum):
+        freqArray[i] = [0]*colNum
+
+    freqArrayNP = np.asarray(freqArray)
+
+    for i in range(seqNum):
+        freqArrayNP = freqArrayNP +abs(targets[i] - targetsError[i])
+    print(freqArrayNP.shape)
+    print("Frequency Matrix:\n")
+    for i in range (lineNum):
+        for j in range(colNum):
+            print (freqArrayNP[i,j])
+        print ("\n")
+
+    ######### End Frequency Calculation    #########################
+
 	
     
     model = MetaRNN(n_in=n_in, n_hidden=n_hidden, n_out=n_out,
@@ -590,23 +632,21 @@ def test_binary(multiple_out=False, n_epochs=250):
     [seqNum,lineNum,colNum] = targetsTest.shape
     #print (seqTest.shape)
     seqs = xrange(seqNum)
-    error = [0 for i in range(lineNum*seqNum)]
+    error = [0 for i in range(seqNum)]
     errorsum = 0
     for k in seqs:
         guess = model.predict_proba(seqTest[k])
         dif = abs(guess - targetsTest[k])
         [lineDif,colDif] = dif.shape
-        #print(lineDif,colDif)
-        for i in range (lineDif):
-            ki = k*lineDif+i
+        for i in range (1,lineDif):
             for j in range (colDif):
                 if (dif[i][j] > 0.5):
-                    error[ki] += 1
-            ferror.write('error %d = %d \n' % (ki,error[ki]))
-            if (error[ki]>0):
-                errorsum += 1
-    print(errorsum)
-    errorRate = errorsum/1.0/seqNum/lineNum
+                    error[k] += (freqArrayNP[i][j]+1)
+        ferror.write('error %d = %d \n' % (k,error[k]))
+        if (error[k]>(4.2/2*lineDif*(lineDif-1))):
+            errorsum += 1
+    print (errorsum)
+    errorRate = errorsum/1.0/seqNum
     ferror.write("average error = %f \n" % (errorRate))
         
 ##    seqs = xrange(1)
