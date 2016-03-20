@@ -629,7 +629,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     targetsError = seqarrayError[:,:,n_in:]
 
 
-    [seqNum, lineNum, colNum] = targetsTest.shape
+    [seqNum, lineNum, colNum] = targetsTest1.shape
     freqArray = [None] * lineNum
     for i in range (lineNum):
         freqArray[i] = [0]*colNum
@@ -641,7 +641,7 @@ def test_binary(multiple_out=False, n_epochs=250):
     fmatrix = file('../RNN-data/matrix/freqMatrix-b15.txt','a+')
     for i in range (lineNum):
         for j in range(colNum):
-            fmatrix.write(freqArrayNP[i,j])
+            fmatrix.write(str(freqArrayNP[i,j]))
         fmatrix.write("\n")
 
     fmatrix.close()
@@ -654,11 +654,11 @@ def test_binary(multiple_out=False, n_epochs=250):
                     n_epochs=n_epochs, activation='tanh', output_type='binary')
 
     #model.fit(seq, targets, validation_frequency=1000)
-    model.fit(seq, targets, seqTest, targetsTest, validation_frequency=1000)
+    model.fit(seq, targets, seqTest1, targetsTest1, validation_frequency=1000)
 
     ferror1 = file('errorRate/errorRate-b15-no.txt','a+')
     ferror2 = file('errorRate/errorRate-b15-single.txt','a+')
-    [seqNum,lineNum,colNum] = targetsTest.shape
+    [seqNum,lineNum,colNum] = targetsTest1.shape
 
     seqs = xrange(seqNum)
     error = [0 for i in range(seqNum)]
